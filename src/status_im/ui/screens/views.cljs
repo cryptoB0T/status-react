@@ -2,7 +2,7 @@
   (:require-macros [status-im.utils.views :refer [defview letsubs] :as views])
   (:require [re-frame.core :refer [dispatch]]
             [status-im.utils.platform :refer [android?]]
-            [status-im.ui.components.react :refer [view modal]]
+            [status-im.ui.components.react :refer [view modal] :as react]
             [status-im.ui.components.styles :as common-styles]
             [status-im.ui.screens.main-tabs.views :refer [main-tabs]]
             [status-im.ui.components.context-menu :refer [menu-context]]
@@ -125,6 +125,7 @@
   (letsubs [signed-up? [:signed-up?]
             view-id    [:get :view-id]
             modal-view [:get :modal]]
+    {:component-will-update (fn [] (react/dismiss-keyboard!))}
     (when view-id
       (let [current-view (validate-current-view view-id signed-up?)]
         (let [component (case current-view
